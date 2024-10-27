@@ -23,7 +23,7 @@ func main() {
 	// запуск go run cmd/api/main.go -path configs/api.toml
 	flag.Parse() // без этой строчки будет пустая строка. Здесь происходит инициализация  переменной ConfigPath
 
-	log.Println("It works")
+	log.Println("It works now")
 	// server instance initialization
 	config := api.NewConfig()
 	_, err := toml.DecodeFile(configPath, config) // deserialization .toml file
@@ -37,4 +37,6 @@ func main() {
 	if err := server.Start(); err != nil {
 		log.Fatal(err)
 	}
+
+	// log.Fatal(server.Start()) // вместо обработки ошибок можно взять эту строку - одно и тоже
 }
