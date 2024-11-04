@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	_ "github.com/gorilla/mux"
+	"github.com/rendley/webserver/storage"
 	"github.com/sirupsen/logrus"
 )
 
@@ -24,4 +25,16 @@ func (a *API) configureRouterField() {
 		w.Write([]byte("Hello! This is rest api!"))
 	})
 
+}
+
+// Пытаемся отконфижить storage
+
+func (a *API) configureStorageField() error {
+	storage := storage.New(a.config.Storage)
+	//Пытаемся установить соединениение, если невозможно - возвращаем ошибку!
+	if err := storage.Open(); err != nil {
+		return err
+	}
+	a.storage = storage
+	return nil
 }
