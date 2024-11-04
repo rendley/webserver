@@ -12,6 +12,9 @@ type Storage struct {
 	config *Config
 	//Database FileDesctiptor
 	db *sql.DB
+	// Subifield for repo interfacing (module user and arcticle)
+	userRepository    *UserRepository
+	articleRepository *ArticleRepository
 }
 
 // New returns a new Storage instance from the given configuration.
@@ -45,5 +48,24 @@ func (storage *Storage) Close() {
 	storage.db.Close()
 }
 
-// config
-// Config is the configuration for the Storage type.
+// Public Repo for Article
+func (s *Storage) Article() *UserRepository {
+	if s.userRepository != nil {
+		return s.userRepository
+	}
+	s.userRepository = &UserRepository{
+		storage: s,
+	}
+	return nil
+}
+
+// Public Repo for User
+func (s *Storage) User() *ArticleRepository {
+	if s.articleRepository != nil {
+		return s.articleRepository
+	}
+	s.articleRepository = &ArticleRepository{
+		storage: s,
+	}
+	return nil
+}
