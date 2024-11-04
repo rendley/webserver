@@ -22,6 +22,7 @@ func (a *API) configureLoggerField() error {
 
 // Пытаетмя отконфижить router
 
+// configureRouterField configures the router with the endpoints.
 func (a *API) configureRouterField() {
 	a.router.HandleFunc(prefix+"/articles", a.GetAllArticles).Methods("GET")
 	a.router.HandleFunc(prefix+"/articles/{id}", a.GetArticleByID).Methods("GET")
