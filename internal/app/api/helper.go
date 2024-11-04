@@ -1,11 +1,13 @@
 package api
 
 import (
-	"net/http"
-
 	_ "github.com/gorilla/mux"
 	"github.com/rendley/webserver/storage"
 	"github.com/sirupsen/logrus"
+)
+
+var (
+	prefix string = "/api/v1"
 )
 
 // Пытаемся отконфижить API instance
@@ -21,10 +23,11 @@ func (a *API) configureLoggerField() error {
 // Пытаетмя отконфижить router
 
 func (a *API) configureRouterField() {
-	a.router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("Hello! This is rest api!"))
-	})
-
+	a.router.HandleFunc(prefix+"/articles", a.GetAllArticles).Methods("GET")
+	a.router.HandleFunc(prefix+"/articles/{id}", a.GetArticleByID).Methods("GET")
+	a.router.HandleFunc(prefix+"/articles/{id}", a.DeleteArticleById).Methods("Delete")
+	a.router.HandleFunc(prefix+"/articles", a.PostArticles).Methods("POST")
+	a.router.HandleFunc(prefix+"/user/register", a.PostUserRegister).Methods("POST")
 }
 
 // Пытаемся отконфижить storage
